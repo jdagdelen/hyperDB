@@ -1,7 +1,7 @@
 import json
 import numpy as np
 import openai
-from hyperdb.galaxy_brain_math_shit import hyper_SVM_ranking_algorithm_sort
+from hyperdb.galaxy_brain_math_shit import cosine_similarity, euclidean_metric, hyper_SVM_ranking_algorithm_sort
 
 def get_embedding(documents, key=None, model="text-embedding-ada-002"):
     """Default embedding function that uses OpenAI Embeddings."""
@@ -24,13 +24,19 @@ def get_embedding(documents, key=None, model="text-embedding-ada-002"):
 
 
 class HyperDB:
-    def __init__(self, documents, key, embedding_function=None):
+    def __init__(self, documents, key, embedding_function=None, similarity_metric='cosine'):
         if embedding_function is None:
             embedding_function = lambda docs: get_embedding(docs, key=key)
         self.documents = []
         self.embedding_function = embedding_function
         self.vectors = None
         self.add_documents(documents)
+        if similarity_metric.__contains__('cosine'):
+            self.similarity_metric = cosine_similarity
+        elif similarity_metric.__contains__('euclidean'):
+            self.similarity_metric = euclidean_metric
+        else:
+            raise Exception("Similarity metric not supported. Please use either 'cosine' or 'euclidean'.")
 
     def add_document(self, document, vector=None):
         if vector is None:
@@ -64,5 +70,5 @@ class HyperDB:
 
     def query(self, query_text, top_k=5):
         query_vector = self.embedding_function([query_text])[0]
-        ranked_results = hyper_SVM_ranking_algorithm_sort(self.vectors, query_vector, top_k=top_k)
+        ranked_results = hyper_SVM_ranking_algorithm_sort(self.vectors, query_vector, top_k=top_k, metric=self.similarity_metric)
         return [self.documents[index] for index in ranked_results]
