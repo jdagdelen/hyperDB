@@ -10,7 +10,7 @@ Want to invest? [Now accepting SAFEs ($35M cap minimum.)](https://www.youtube.co
 ## Advantages
 * Simple interface compatible with _all_ large language model agents. 
 * Highly optimized C++ backend vector store with HW accelerated operations via MKL BLAS. 
-* Enables users to index documents with advanced features such as ids and metadata.
+* Enables users to index documents with advanced features such as _ids_ and _metadata_.
 
 ## Installation
 
