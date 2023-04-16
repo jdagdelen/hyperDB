@@ -1,7 +1,7 @@
 import json
 import numpy as np
 import openai
-from hyperdb.galaxy_brain_math_shit import *
+from hyperdb.galaxy_brain_math_shit import cosine_similarity, eucledian_metric, hyper_SVM_ranking_algorithm_sort
 
 def get_embedding(documents, key=None, model="text-embedding-ada-002"):
     """Default embedding function that uses OpenAI Embeddings."""
