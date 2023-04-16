@@ -19,21 +19,21 @@ def get_embedding(documents, key=None, model="text-embedding-ada-002"):
         elif isinstance(documents[0], str):
             texts = documents
     response = openai.Embedding.create(input=texts, model=model)
-    embeddings = [np.array(item['embedding']) for item in response['data']]
+    embeddings = [np.array(item["embedding"]) for item in response["data"]]
     return embeddings
 
 
 class HyperDB:
-    def __init__(self, documents, key, embedding_function=None, similarity_metric='cosine'):
+    def __init__(self, documents, key, embedding_function=None, similarity_metric="cosine"):
         if embedding_function is None:
             embedding_function = lambda docs: get_embedding(docs, key=key)
         self.documents = []
         self.embedding_function = embedding_function
         self.vectors = None
         self.add_documents(documents)
-        if similarity_metric.__contains__('cosine'):
+        if similarity_metric.__contains__("cosine"):
             self.similarity_metric = cosine_similarity
-        elif similarity_metric.__contains__('euclidean'):
+        elif similarity_metric.__contains__("euclidean"):
             self.similarity_metric = euclidean_metric
         else:
             raise Exception("Similarity metric not supported. Please use either 'cosine' or 'euclidean'.")
@@ -56,17 +56,17 @@ class HyperDB:
 
     def save(self, storage_file):
         data = {
-            'vectors': self.vectors.tolist(),
-            'documents': self.documents
+            "vectors": self.vectors.tolist(),
+            "documents": self.documents
         }
-        with open(storage_file, 'w') as f:
+        with open(storage_file, "w") as f:
             json.dump(data, f)
 
     def load(self, storage_file):
-        with open(storage_file, 'r') as f:
+        with open(storage_file, "r") as f:
             data = json.load(f)
-        self.vectors = np.array(data['vectors'])
-        self.documents = data['documents']
+        self.vectors = np.array(data["vectors"])
+        self.documents = data["documents"]
 
     def query(self, query_text, top_k=5):
         query_vector = self.embedding_function([query_text])[0]
