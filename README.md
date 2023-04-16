@@ -17,7 +17,7 @@ pip install hyperdb-python
 
 ## Usage
 
-Here's an example of using HyperDB to store and query documents:
+Here's an example of using HyperDB to store and query documents with information about all 151 original pokemon _in an instant_:
 
 ```python
 import json
