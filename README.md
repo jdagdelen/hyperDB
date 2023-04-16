@@ -43,5 +43,44 @@ db.load("demo/pokemon_hyperdb.json")
 results = db.query("Likes to sleep.", top_k=5)
 ```
 
+Returns 
+```
+Name: Snorlax
+Pokedex ID: 143
+HP: 160
+Type: normal
+Weakness: fighting
+Description: Very lazy. Just eats and sleeps. As its rotund bulk builds, it becomes steadily more slothful.
+
+Name: Drowzee
+Pokedex ID: 96
+HP: 230
+Type: psychic
+Weakness: dark
+Description: Puts enemies to sleep then eats their dreams. Occasionally gets sick from eating bad dreams.
+
+Name: Pinsir
+Pokedex ID: 127
+HP: 160
+Type: bug
+Weakness: fire
+Description: When the temperature drops at night, it sleeps on treetops or among roots where it is well hidden.
+
+Name: Abra
+Pokedex ID: 63
+HP: 160
+Type: psychic
+Weakness: dark
+Description: Sleeps 18 hours a day. If it senses danger, it will teleport itself to safety even as it sleeps.
+
+Name: Venonat
+Pokedex ID: 48
+HP: 160
+Type: bug
+Weakness: fire
+Description: Lives in the shadows of tall trees where it eats insects. It is attracted by light at night.
+```
+
 <img width="600" src="https://raw.githubusercontent.com/jdagdelen/hyperDB/main/_static/0B147C7D-BEB0-4E61-9397-64A460C8CE22.png"/>
+
 *Benchmark Credit: Benim Kıçım

@@ -1,7 +1,7 @@
 import json
 import numpy as np
 import openai
-from hyperdb.galaxy_brain_math_shit import cosine_similarity
+from hyperdb.galaxy_brain_math_shit import hyper_SVM_ranking_algorithm_sort
 
 def get_embedding(documents, key=None, model="text-embedding-ada-002"):
     """Default embedding function that uses OpenAI Embeddings."""
@@ -64,6 +64,5 @@ class HyperDB:
 
     def query(self, query_text, top_k=5):
         query_vector = self.embedding_function([query_text])[0]
-        similarities = cosine_similarity(self.vectors, query_vector)
-        top_indices = np.argsort(similarities, axis=0)[-top_k:][::-1]
-        return [self.documents[index] for index in top_indices.flatten()]
+        ranked_results = hyper_SVM_ranking_algorithm_sort(self.vectors, query_vector, top_k=top_k)
+        return [self.documents[index] for index in ranked_results]
