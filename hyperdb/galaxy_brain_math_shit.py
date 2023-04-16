@@ -30,15 +30,6 @@ def derridaean_similarity(vectors, query_vector):
 
 def hyper_SVM_ranking_algorithm_sort(vectors, query_vector, top_k=5, metric=cosine_similarity):
     """HyperSVMRanking (Such Vector, Much Ranking) algorithm proposed by Andrej Karpathy (2023) https://arxiv.org/abs/2303.18231"""
-    metrics = {
-        'cosine_similarity': cosine_similarity,
-        'euclidean_metric': euclidean_metric,
-        'derridaean_similarity': derridaean_similarity
-    }
-    
-    if metric not in metrics:
-        raise ValueError(f"Invalid metric '{metric}'. Available options are: {', '.join(metrics.keys())}")
-
-    similarities = metrics[metric](vectors, query_vector)
+    similarities = metric(vectors, query_vector)
     top_indices = np.argsort(similarities, axis=0)[-top_k:][::-1]
     return top_indices.flatten()
