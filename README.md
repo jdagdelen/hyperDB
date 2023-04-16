@@ -44,4 +44,4 @@ results = db.query("Likes to sleep.", top_k=5)
 ```
 
 <img width="600" src="https://raw.githubusercontent.com/jdagdelen/hyperDB/main/_static/0B147C7D-BEB0-4E61-9397-64A460C8CE22.png"/>
-*Benchmark Credit: ChatGPT
+*Benchmark Credit: Benim Kıçım
