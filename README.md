@@ -1,5 +1,8 @@
 # HyperDB
 
+<!-- logo -->
+<img src="https://raw.githubusercontent.com/jdagdelen/hyperdb/_static/logo.png" width="200" alt="HyperDB Logo">
+
 A hyper-fast local vector database for use with LLM Agents. [Now accepting SAFEs ($35M cap minimum.)](https://www.youtube.com/watch?v=QH2-TGUlwu4)
 
 ## Installation
