@@ -7,6 +7,11 @@ A hyper-fast local vector database for use with LLM Agents.
 
 Want to invest? [Now accepting SAFEs ($35M cap minimum.)](https://www.youtube.com/watch?v=QH2-TGUlwu4)
 
+## Advantages
+* Simple interface compatible with _all_ large language model agents. 
+* Highly optimized C++ backend vector store with HW accelerated operations via MKL BLAS. 
+* Supports documents with advanced features such as ids and metadata.
+
 ## Installation
 
 Install the package from PyPI:
