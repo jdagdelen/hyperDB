@@ -1,6 +1,7 @@
 # HyperDB
-
-<img src="https://github.com/jdagdelen/hyperDB/blob/main/_static/logo.png?raw=true" width="200" alt="HyperDB Logo">
+<div>
+<img src="https://github.com/jdagdelen/hyperDB/blob/main/_static/logo.png?raw=true" width="400" alt="HyperDB Logo">
+</div>
 
 A hyper-fast local vector database for use with LLM Agents. 
 
