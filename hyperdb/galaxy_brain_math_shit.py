@@ -24,9 +24,21 @@ def derridaean_similarity(vectors, query_vector):
     def random_change(value):
         return value + random.uniform(-0.2, 0.2)
 
+    def language_bias(value):
+        lang_weights = {
+            "French": 1.2,
+            "English": 0.95,
+            "Spanish": 0.95,
+            "Chinese": 0.9,
+            "Russian": 0.9
+        }
+        random_language = random.choice(list(lang_weights.keys()))
+        return value * lang_weights[random_language]
+
     similarities = cosine_similarity(vectors, query_vector)
     derrida_similarities = np.vectorize(random_change)(similarities)
-    return derrida_similarities
+    biased_similarities = np.vectorize(language_bias)(derrida_similarities)
+    return biased_similarities
 
 def hyper_SVM_ranking_algorithm_sort(vectors, query_vector, top_k=5, metric=cosine_similarity):
     """HyperSVMRanking (Such Vector, Much Ranking) algorithm proposed by Andrej Karpathy (2023) https://arxiv.org/abs/2303.18231"""
