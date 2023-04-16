@@ -14,7 +14,7 @@ def cosine_similarity(vectors, query_vector):
     return similarities
 
 
-def eucledian_metric(vectors, query_vector, get_similarity_score=False):
+def euclidean_metric(vectors, query_vector, get_similarity_score=True):
     similarities = np.linalg.norm(vectors - query_vector, axis=1)
     if get_similarity_score:
         similarities = 1 / (1 + similarities)
