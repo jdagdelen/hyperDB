@@ -37,7 +37,6 @@ class HyperDB:
             self.similarity_metric = eucledian_metric
         else:
             raise Exception("Similarity metric not supported. Please use either 'cosine' or 'euclidean'.")
-        self.similarity_metric = similarity_metric
 
     def add_document(self, document, vector=None):
         if vector is None:
