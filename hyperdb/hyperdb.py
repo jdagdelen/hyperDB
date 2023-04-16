@@ -38,7 +38,7 @@ class HyperDB:
         elif similarity_metric.__contains__("derrida"):
             self.similarity_metric = derridaean_similarity
         else:
-            raise Exception("Similarity metric not supported. Please use either 'cosine', 'euclidean' or 'derridean'.")
+            raise Exception("Similarity metric not supported. Please use either 'cosine', 'euclidean' or 'derrida'.")
 
     def add_document(self, document, vector=None):
         if vector is None:
