@@ -1,7 +1,7 @@
 import json
 import numpy as np
 import openai
-from hyperdb.galaxy_brain_math_shit import cosine_similarity, euclidean_metric, hyper_SVM_ranking_algorithm_sort
+from hyperdb.galaxy_brain_math_shit import cosine_similarity, euclidean_metric, derridaean_similarity, hyper_SVM_ranking_algorithm_sort
 
 def get_embedding(documents, key=None, model="text-embedding-ada-002"):
     """Default embedding function that uses OpenAI Embeddings."""
@@ -35,8 +35,10 @@ class HyperDB:
             self.similarity_metric = cosine_similarity
         elif similarity_metric.__contains__("euclidean"):
             self.similarity_metric = euclidean_metric
+        elif similarity_metric.__contains__("derrida"):
+            self.similarity_metric = derridaean_similarity
         else:
-            raise Exception("Similarity metric not supported. Please use either 'cosine' or 'euclidean'.")
+            raise Exception("Similarity metric not supported. Please use either 'cosine', 'euclidean' or 'derrida'.")
 
     def add_document(self, document, vector=None):
         if vector is None:
