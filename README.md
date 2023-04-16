@@ -35,7 +35,7 @@ with open("demo/pokemon.jsonl", "r") as f:
     for line in f:
         documents.append(json.loads(line))
 
-# Instantiate HyperDB with the list of documents and the key "description"
+# Instantiate HyperDB with the list of documents
 db = HyperDB(documents, key="info.description")
 
 # Save the HyperDB instance to a file
