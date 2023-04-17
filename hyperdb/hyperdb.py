@@ -1,5 +1,6 @@
 import pickle
 import numpy as np
+import gzip
 import openai
 from hyperdb.galaxy_brain_math_shit import cosine_similarity, euclidean_metric, derridaean_similarity, hyper_SVM_ranking_algorithm_sort
 
@@ -44,15 +45,15 @@ class HyperDB:
         if vector is None:
             vector = self.embedding_function([document])[0]
         if self.vectors is None:
-            self.vectors = np.empty((0, len(vector)), dtype=float)
+            self.vectors = np.empty((0, len(vector)), dtype=np.float32)
         elif len(vector) != self.vectors.shape[1]:
             raise ValueError("All vectors must have the same length.")
-        self.vectors = np.vstack([self.vectors, vector])
+        self.vectors = np.vstack([self.vectors, vector]).astype(np.float32)
         self.documents.append(document)
 
     def add_documents(self, documents, vectors=None):
         if vectors is None:
-            vectors = np.array(self.embedding_function(documents))
+            vectors = np.array(self.embedding_function(documents)).astype(np.float32)
         for vector, document in zip(vectors, documents):
             self.add_document(document, vector)
 
@@ -61,13 +62,21 @@ class HyperDB:
             "vectors": self.vectors,
             "documents": self.documents
         }
-        with open(storage_file, "wb") as f:
-            pickle.dump(data, f)
+        if storage_file.endswith(".gz"):
+            with gzip.open(storage_file, "wb") as f:
+                pickle.dump(data, f)
+        else:
+            with open(storage_file, "wb") as f:
+                pickle.dump(data, f)
 
     def load(self, storage_file):
-        with open(storage_file, "rb") as f:
-            data = pickle.load(f)
-        self.vectors = data["vectors"]
+        if storage_file.endswith(".gz"):
+            with gzip.open(storage_file, "rb") as f:
+                data = pickle.load(f)
+        else:
+            with open(storage_file, "rb") as f:
+                data = pickle.load(f)
+        self.vectors = data["vectors"].astype(np.float32)
         self.documents = data["documents"]
 
     def query(self, query_text, top_k=5):
