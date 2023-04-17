@@ -1,4 +1,4 @@
-import json
+import pickle
 import numpy as np
 import openai
 from hyperdb.galaxy_brain_math_shit import cosine_similarity, euclidean_metric, derridaean_similarity, hyper_SVM_ranking_algorithm_sort
@@ -58,16 +58,16 @@ class HyperDB:
 
     def save(self, storage_file):
         data = {
-            "vectors": self.vectors.tolist(),
+            "vectors": self.vectors,
             "documents": self.documents
         }
-        with open(storage_file, "w") as f:
-            json.dump(data, f)
+        with open(storage_file, "wb") as f:
+            pickle.dump(data, f)
 
     def load(self, storage_file):
-        with open(storage_file, "r") as f:
-            data = json.load(f)
-        self.vectors = np.array(data["vectors"])
+        with open(storage_file, "rb") as f:
+            data = pickle.load(f)
+        self.vectors = data["vectors"]
         self.documents = data["documents"]
 
     def query(self, query_text, top_k=5):

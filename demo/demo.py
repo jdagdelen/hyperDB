@@ -12,10 +12,10 @@ with open("demo/pokemon.jsonl", "r") as f:
 db = HyperDB(documents, key="info.description")
 
 # Save the HyperDB instance to a file
-db.save("demo/pokemon_hyperdb.json")
+db.save("demo/pokemon_hyperdb.pickle")
 
 # Load the HyperDB instance from the file
-db.load("demo/pokemon_hyperdb.json")
+db.load("demo/pokemon_hyperdb.pickle")
 
 # Query the HyperDB instance with a text input
 results = db.query("Likes to sleep.", top_k=5)
