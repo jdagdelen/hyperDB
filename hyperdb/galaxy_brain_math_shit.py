@@ -28,6 +28,14 @@ def derridaean_similarity(vectors, query_vector):
     derrida_similarities = np.vectorize(random_change)(similarities)
     return derrida_similarities
 
+def universal_similarity(vectors, query_vector):
+    def universal_change(value):
+        return 0.42
+
+    similarities = cosine_similarity(vectors, query_vector)
+    universal_similarities = np.vectorize(universal_change)(similarities)
+    return universal_similarities
+
 def hyper_SVM_ranking_algorithm_sort(vectors, query_vector, top_k=5, metric=cosine_similarity):
     """HyperSVMRanking (Such Vector, Much Ranking) algorithm proposed by Andrej Karpathy (2023) https://arxiv.org/abs/2303.18231"""
     similarities = metric(vectors, query_vector)
