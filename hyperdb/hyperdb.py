@@ -26,10 +26,8 @@ def get_embedding(documents, key=None, model="text-embedding-ada-002"):
 
 class HyperDB:
     def __init__(self, documents, key, embedding_function=None, similarity_metric="cosine"):
-        if embedding_function is None:
-            embedding_function = lambda docs: get_embedding(docs, key=key)
         self.documents = []
-        self.embedding_function = embedding_function
+        self.embedding_function = embedding_function or (lambda docs: get_embedding(docs, key=key))
         self.vectors = None
         self.add_documents(documents)
         if similarity_metric.__contains__("cosine"):
@@ -42,8 +40,7 @@ class HyperDB:
             raise Exception("Similarity metric not supported. Please use either 'cosine', 'euclidean' or 'derrida'.")
 
     def add_document(self, document, vector=None):
-        if vector is None:
-            vector = self.embedding_function([document])[0]
+        vector = vector or self.embedding_function([document])[0]
         if self.vectors is None:
             self.vectors = np.empty((0, len(vector)), dtype=np.float32)
         elif len(vector) != self.vectors.shape[1]:
@@ -52,8 +49,7 @@ class HyperDB:
         self.documents.append(document)
 
     def add_documents(self, documents, vectors=None):
-        if vectors is None:
-            vectors = np.array(self.embedding_function(documents)).astype(np.float32)
+        vectors = vectors or np.array(self.embedding_function(documents)).astype(np.float32)
         for vector, document in zip(vectors, documents):
             self.add_document(document, vector)
 
