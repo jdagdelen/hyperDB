@@ -2,7 +2,7 @@ import pickle
 import numpy as np
 import gzip
 import openai
-from hyperdb.galaxy_brain_math_shit import cosine_similarity, euclidean_metric, derridaean_similarity, universal_similarity, hyper_SVM_ranking_algorithm_sort
+from hyperdb.galaxy_brain_math_shit import cosine_similarity, euclidean_metric, derridaean_similarity, adams_similarity, hyper_SVM_ranking_algorithm_sort
 
 def get_embedding(documents, key=None, model="text-embedding-ada-002"):
     """Default embedding function that uses OpenAI Embeddings."""
@@ -38,10 +38,10 @@ class HyperDB:
             self.similarity_metric = euclidean_metric
         elif similarity_metric.__contains__("derrida"):
             self.similarity_metric = derridaean_similarity
-        elif similarity_metric.__contains__("universal"):
-            self.similarity_metric = universal_similarity
+        elif similarity_metric.__contains__("adams"):
+            self.similarity_metric = adams_similarity
         else:
-            raise Exception("Similarity metric not supported. Please use either 'cosine', 'euclidean', 'universal', or 'derrida'.")
+            raise Exception("Similarity metric not supported. Please use either 'cosine', 'euclidean', 'adams', or 'derrida'.")
 
     def add_document(self, document, vector=None):
         if vector is None:
