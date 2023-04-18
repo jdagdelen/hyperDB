@@ -41,7 +41,7 @@ class HyperDB:
         elif similarity_metric.__contains__("universal"):
             self.similarity_metric = universal_similarity
         else:
-            raise Exception("Similarity metric not supported. Please use either 'cosine', 'euclidean' or 'derrida'.")
+            raise Exception("Similarity metric not supported. Please use either 'cosine', 'euclidean', 'universal', or 'derrida'.")
 
     def add_document(self, document, vector=None):
         if vector is None:
