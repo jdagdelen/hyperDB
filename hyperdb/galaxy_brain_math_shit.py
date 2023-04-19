@@ -1,8 +1,5 @@
 """Super valuable proprietary algorithm for ranking vector similarity. Top secret."""
 import numpy as np
-import qrng
-import random
-
 
 def get_norm_vector(vector):
     if len(vector.shape) == 1:
@@ -25,15 +22,37 @@ def euclidean_metric(vectors, query_vector, get_similarity_score=True):
     return similarities
 
 
-def derridaean_similarity(vectors, query_vector, quantum=False):
-    qrng.set_provider_as_IBMQ()  # qasm_simulator
-    qrng.set_backend()  # qasm_simulator
+def derridaean_similarity(vectors, query_vector):
+    class Qubit:
+        def __init__(self):
+            self.state = np.array([1, 0], dtype=np.complex128)
+
+        def apply(self, gate):
+            self.state = np.dot(gate, self.state)
+
+        def measure(self):
+            probabilities = np.abs(self.state) ** 2
+            result = np.random.choice([0, 1], p=probabilities)
+            return result
+
+    # Hadamard gate
+    h_gate = np.array([[1 / np.sqrt(2), 1 / np.sqrt(2)],
+                  [1 / np.sqrt(2), -1 / np.sqrt(2)]], dtype=np.complex128)
+
+    qubit = Qubit()
 
     def random_change(value):
-        if quantum:
-            return value + qrng.get_random_float(-0.2, 0.2)
-        else:
-            return value + random.uniform(-0.2, 0.2)
+        qubit.apply(h_gate)
+
+        binary = [str(qubit.measure()) for _ in range(8)]
+
+        i = int(''.join(binary), 2)
+        f = i / (2 ** 8 - 1)
+
+        # -0.2 to 0.2
+        r_result = -0.2 + f * 0.4
+
+        return value + r_result
 
     similarities = cosine_similarity(vectors, query_vector)
     derrida_similarities = np.vectorize(random_change)(similarities)
