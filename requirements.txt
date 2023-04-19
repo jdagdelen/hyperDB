@@ -1,3 +1,5 @@
+qiskit
 numpy
-pytest
 openai
+pytest
+qrng
