@@ -26,6 +26,9 @@ def euclidean_metric(vectors, query_vector, get_similarity_score=True):
 
 
 def derridaean_similarity(vectors, query_vector, quantum=False):
+    qrng.set_provider_as_IBMQ()  # qasm_simulator
+    qrng.set_backend()  # qasm_simulator
+
     def random_change(value):
         if quantum:
             return value + qrng.get_random_float(-0.2, 0.2)
