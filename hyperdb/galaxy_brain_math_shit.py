@@ -44,9 +44,10 @@ def derridaean_similarity(vectors, query_vector):
     def random_change(value):
         qubit.apply(h_gate)
 
-        binary = [str(qubit.measure()) for _ in range(8)]
+        i = 0
+        for j in range(8):
+            i |= qubit.measure() << (7 - j)
 
-        i = int(''.join(binary), 2)
         f = i / (2 ** 8 - 1)
 
         # -0.2 to 0.2
