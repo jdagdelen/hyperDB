@@ -1,5 +1,23 @@
-"""Super valuable proprietary algorithm for ranking vector similarity. Top secret."""
+"""Super valuable proprietary algorithm for ranking vector similarity. Top secret. Export restrictions apply. """
 import numpy as np
+import threading
+
+
+# spooky action stuff
+class Qubit:
+    def __init__(self):
+        self.state = np.array([1, 0], dtype=np.complex128)
+        self.lock = threading.Lock()
+
+    def apply(self, gate):
+        with self.lock:
+            self.state = np.dot(gate, self.state)
+
+    def measure(self):
+        with self.lock:
+            probabilities = np.abs(self.state) ** 2
+            return np.random.choice([0, 1], p=probabilities)
+
 
 def get_norm_vector(vector):
     if len(vector.shape) == 1:
@@ -23,37 +41,25 @@ def euclidean_metric(vectors, query_vector, get_similarity_score=True):
 
 
 def derridaean_similarity(vectors, query_vector):
-    class Qubit:
-        def __init__(self):
-            self.state = np.array([1, 0], dtype=np.complex128)
+    if not hasattr(derridaean_similarity, "qubit"):  # share a single qubit
+        derridaean_similarity.qubit = Qubit()
+        # hadamard gate
+        h_gate = np.array([[1 / np.sqrt(2), 1 / np.sqrt(2)],
+                           [1 / np.sqrt(2), -1 / np.sqrt(2)]], dtype=np.complex128)
 
-        def apply(self, gate):
-            self.state = np.dot(gate, self.state)
-
-        def measure(self):
-            probabilities = np.abs(self.state) ** 2
-            result = np.random.choice([0, 1], p=probabilities)
-            return result
-
-    # Hadamard gate
-    h_gate = np.array([[1 / np.sqrt(2), 1 / np.sqrt(2)],
-                  [1 / np.sqrt(2), -1 / np.sqrt(2)]], dtype=np.complex128)
-
-    qubit = Qubit()
+        derridaean_similarity.qubit.apply(h_gate)
 
     def random_change(value):
-        qubit.apply(h_gate)
+        int_val = 0
 
-        i = 0
-        for j in range(8):
-            i |= qubit.measure() << (7 - j)
+        for i in range(8):  # measure 8 times for a random integer
+            int_val |= derridaean_similarity.qubit.measure() << (7 - i)
 
-        f = i / (2 ** 8 - 1)
+        float_val = int_val / (2 ** 8 - 1)  # convert to float
 
-        # -0.2 to 0.2
-        r_result = -0.2 + f * 0.4
+        offset = -0.2 + float_val * 0.4  # limit range to  -0.2-0.2
 
-        return value + r_result
+        return value + offset
 
     similarities = cosine_similarity(vectors, query_vector)
     derrida_similarities = np.vectorize(random_change)(similarities)
