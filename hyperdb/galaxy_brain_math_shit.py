@@ -40,4 +40,4 @@ def hyper_SVM_ranking_algorithm_sort(vectors, query_vector, top_k=5, metric=cosi
     """HyperSVMRanking (Such Vector, Much Ranking) algorithm proposed by Andrej Karpathy (2023) https://arxiv.org/abs/2303.18231"""
     similarities = metric(vectors, query_vector)
     top_indices = np.argsort(similarities, axis=0)[-top_k:][::-1]
-    return top_indices.flatten()
+    return top_indices.flatten(), similarities[top_indices].flatten()
