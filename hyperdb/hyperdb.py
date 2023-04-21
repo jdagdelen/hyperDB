@@ -106,7 +106,7 @@ class HyperDB:
         self.vectors = data["vectors"].astype(np.float32)
         self.documents = data["documents"]
 
-    def query(self, query_text, top_k=5, similarities=True):
+    def query(self, query_text, top_k=5, return_similarities=True):
         query_vector = self.embedding_function([query_text])[0]
         ranked_results, similarities = hyper_SVM_ranking_algorithm_sort(
             self.vectors,
@@ -114,6 +114,6 @@ class HyperDB:
             top_k=top_k,
             metric=self.similarity_metric
         )
-        if similarities:
+        if return_similarities:
             return list(zip([self.documents[index] for index in ranked_results], similarities))
         return [self.documents[index] for index in ranked_results]
