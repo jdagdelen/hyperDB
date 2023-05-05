@@ -5,7 +5,7 @@
 
 A hyper-fast local vector database for use with LLM Agents. 
 
-Want to invest? [Now accepting SAFEs ($35M cap minimum.)](https://www.youtube.com/watch?v=QH2-TGUlwu4)
+Want to invest? [Now accepting SAFEs ($135M cap minimum.)](https://www.youtube.com/watch?v=QH2-TGUlwu4)
 
 Join the [HyperDBiscord](https://discord.gg/8YQzexAA)
 
