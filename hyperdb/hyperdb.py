@@ -61,7 +61,7 @@ class HyperDB:
         self.add_documents(documents, vectors)
 
     def add_document(self, document, vector=None):
-        vector = vector or self.embedding_function([document])[0]
+        vector = vector if vector is not None else self.embedding_function([document])[0]
         if self.vectors is None:
             self.vectors = np.empty((0, len(vector)), dtype=np.float32)
         elif len(vector) != self.vectors.shape[1]:
