@@ -3,7 +3,6 @@ import pickle
 
 import numpy as np
 import openai
-from openai import get_embeddings
 
 from hyperdb.galaxy_brain_math_shit import (
     adams_similarity,
@@ -50,7 +49,7 @@ class HyperDB:
     def __init__(
         self,
         documents=None,
-        embeddings=None,
+        vectors=None,
         key=None,
         embedding_function=None,
         similarity_metric="cosine",
@@ -61,8 +60,8 @@ class HyperDB:
         self.embedding_function = embedding_function or (
             lambda docs: get_embedding(docs, key=key)
         )
-        if embeddings is not None:
-            self.vectors = embeddings
+        if vectors is not None:
+            self.vectors = vectors
             self.documents = documents
         else:
             self.add_documents(documents)
