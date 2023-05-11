@@ -4,7 +4,7 @@ from hyperdb import HyperDB
 # Load documents from the JSONL file
 documents = []
 
-with open("demo/pokemon.jsonl", "r") as f:
+with open("pokemon.jsonl", "r") as f:
     for line in f:
         documents.append(json.loads(line))
 
@@ -12,13 +12,14 @@ with open("demo/pokemon.jsonl", "r") as f:
 db = HyperDB(documents, key="info.description")
 
 # Save the HyperDB instance to a file
-db.save("demo/pokemon_hyperdb.pickle.gz")
+db.save("pokemon_hyperdb.pickle.gz")
 
 # Load the HyperDB instance from the file
-db.load("demo/pokemon_hyperdb.pickle.gz")
+db.load("pokemon_hyperdb.pickle.gz")
 
 # Query the HyperDB instance with a text input
 results = db.query("Likes to sleep.", top_k=5)
+
 
 # Define a function to pretty print the results
 def format_entry(pokemon):
@@ -38,6 +39,7 @@ Weakness: {weakness}
 Description: {description}
 """
     return pretty_pokemon
+
 
 # Print the top 5 most similar Pokémon descriptions
 for result in results:
