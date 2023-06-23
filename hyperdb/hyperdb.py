@@ -5,6 +5,7 @@ import numpy as np
 import openai
 
 from hyperdb.galaxy_brain_math_shit import (
+    dot_product,
     adams_similarity,
     cosine_similarity,
     derridaean_similarity,
@@ -66,7 +67,9 @@ class HyperDB:
         else:
             self.add_documents(documents)
 
-        if similarity_metric.__contains__("cosine"):
+        if similarity_metric.__contains__("dot"):
+            self.similarity_metric = dot_product
+        elif similarity_metric.__contains__("cosine"):
             self.similarity_metric = cosine_similarity
         elif similarity_metric.__contains__("euclidean"):
             self.similarity_metric = euclidean_metric
@@ -76,7 +79,7 @@ class HyperDB:
             self.similarity_metric = adams_similarity
         else:
             raise Exception(
-                "Similarity metric not supported. Please use either 'cosine', 'euclidean', 'adams', or 'derrida'."
+                "Similarity metric not supported. Please use either 'dot', 'cosine', 'euclidean', 'adams', or 'derrida'."
             )
 
     def dict(self, vectors=False):
