@@ -56,7 +56,7 @@ class HyperDB:
     ):
         documents = documents or []
         self.documents = []
-        self.vectors = []
+        self.vectors = None
         self.embedding_function = embedding_function or (
             lambda docs: get_embedding(docs, key=key)
         )
