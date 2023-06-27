@@ -8,6 +8,10 @@ def get_norm_vector(vector):
     else:
         return vector / np.linalg.norm(vector, axis=1)[:, np.newaxis]
 
+def dot_product(vectors, query_vector):
+    similarities = np.dot(vectors, query_vector.T)
+    return similarities
+
 def cosine_similarity(vectors, query_vector):
     norm_vectors = get_norm_vector(vectors)
     norm_query_vector = get_norm_vector(query_vector)
