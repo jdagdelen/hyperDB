@@ -1,5 +1,7 @@
 import json
 from hyperdb import HyperDB
+# To use this, install sentence-transformers
+# pip install sentence-transformers
 from sentence_transformers import SentenceTransformer
 
 
