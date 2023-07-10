@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="hyperdb-python",
-    version="0.1.3",
+    version="0.1.4",
     author="John Dagdelen",
     author_email="jjdagdelen@gmail.com",
     description="A hyper-fast local vector database for use with LLM Agents.",
