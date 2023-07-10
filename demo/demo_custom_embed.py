@@ -1,5 +1,9 @@
 import json
 from hyperdb import HyperDB
+# To use this, install sentence-transformers
+# pip install sentence-transformers
+from sentence_transformers import SentenceTransformer
+
 
 # Load documents from the JSONL file
 documents = []
@@ -9,7 +13,9 @@ with open("demo/pokemon.jsonl", "r") as f:
         documents.append(json.loads(line))
 
 # Instantiate HyperDB with the list of documents and the key "description"
-db = HyperDB(documents, key="info.description")
+model = SentenceTransformer('all-MiniLM-L6-v2')
+db = HyperDB(documents, key="info.description",
+             embedding_function=model.encode)
 
 # Save the HyperDB instance to a file
 db.save("demo/pokemon_hyperdb.pickle.gz")
