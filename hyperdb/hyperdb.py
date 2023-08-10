@@ -3,6 +3,8 @@ import pickle
 
 import numpy as np
 import openai
+from sentence_transformers import SentenceTransformer
+
 
 from hyperdb.galaxy_brain_math_shit import (
     dot_product,
@@ -16,8 +18,9 @@ from hyperdb.galaxy_brain_math_shit import (
 MAX_BATCH_SIZE = 2048  # OpenAI batch endpoint max size https://github.com/openai/openai-python/blob/main/openai/embeddings_utils.py#L43
 
 
-def get_embedding(documents, key=None, model="text-embedding-ada-002"):
+def get_embedding(documents, key=None, model="text-embedding-ada-002", model_type='openai'):
     """Default embedding function that uses OpenAI Embeddings."""
+
     if isinstance(documents, list):
         if isinstance(documents[0], dict):
             texts = []
@@ -37,12 +40,25 @@ def get_embedding(documents, key=None, model="text-embedding-ada-002"):
         elif isinstance(documents[0], str):
             texts = documents
     batches = [
-        texts[i : i + MAX_BATCH_SIZE] for i in range(0, len(texts), MAX_BATCH_SIZE)
+        texts[i: i + MAX_BATCH_SIZE] for i in range(0, len(texts), MAX_BATCH_SIZE)
     ]
     embeddings = []
-    for batch in batches:
-        response = openai.Embedding.create(input=batch, model=model)
-        embeddings.extend(np.array(item["embedding"]) for item in response["data"])
+    if model_type == 'openai':
+
+        for batch in batches:
+            response = openai.Embedding.create(input=batch, model=model)
+            embeddings.extend(np.array(item["embedding"])
+                            for item in response["data"])
+    elif model_type == 'huggingface':
+        for batch in batches:
+            model = SentenceTransformer(model)
+            response = model.encode(batch)
+            embeddings.append(response)
+    else:
+        raise Exception(
+                "Issue with encoding model"
+            )
+
     return embeddings
 
 
@@ -102,7 +118,8 @@ class HyperDB:
 
     def add_document(self, document: dict, vector=None):
         vector = (
-            vector if vector is not None else self.embedding_function([document])[0]
+            vector if vector is not None else self.embedding_function([document])[
+                0]
         )
         if self.vectors is None:
             self.vectors = np.empty((0, len(vector)), dtype=np.float32)
@@ -150,6 +167,7 @@ class HyperDB:
         )
         if return_similarities:
             return list(
-                zip([self.documents[index] for index in ranked_results], similarities)
+                zip([self.documents[index]
+                     for index in ranked_results], similarities)
             )
         return [self.documents[index] for index in ranked_results]
