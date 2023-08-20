@@ -5,6 +5,9 @@
 
 A hyper-fast local vector database for use with LLM Agents. 
 
+Want to invest? [Now accepting SAFEs ($135M cap minimum.)](https://www.youtube.com/watch?v=QH2-TGUlwu4)
+
+Join the [HyperDBiscord](https://discord.gg/8YQzexAA)
 
 ## Advantages
 * Simple interface compatible with _all_ large language model agents. 
@@ -85,4 +88,6 @@ Weakness: fire
 Description: Lives in the shadows of tall trees where it eats insects. It is attracted by light at night.
 ```
 
+<img width="600" src="https://raw.githubusercontent.com/jdagdelen/hyperDB/main/_static/0B147C7D-BEB0-4E61-9397-64A460C8CE22.png"/>
 
+*Benchmark Credit: Benim Kıçım
