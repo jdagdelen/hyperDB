@@ -125,6 +125,9 @@ class HyperDB:
             self.add_document(document, vector)
 
     def save(self, storage_file):
+        if self.vectors is None or self.documents is None:
+            return
+
         data = {"vectors": self.vectors, "documents": self.documents}
         if storage_file.endswith(".gz"):
             with gzip.open(storage_file, "wb") as f:
@@ -144,9 +147,25 @@ class HyperDB:
         self.documents = data["documents"]
 
     def query(self, query_text, top_k=5, return_similarities=True):
+        if self.vectors is None:
+            return []
+
         query_vector = self.embedding_function([query_text])[0]
         ranked_results, similarities = hyper_SVM_ranking_algorithm_sort(
             self.vectors, query_vector, top_k=top_k, metric=self.similarity_metric
+        )
+        if return_similarities:
+            return list(
+                zip([self.documents[index] for index in ranked_results], similarities)
+            )
+        return [self.documents[index] for index in ranked_results]
+
+    def similar_vectors(self, vector, top_k=5, return_similarities=True):
+        if self.vectors is None:
+            return []
+
+        ranked_results, similarities = hyper_SVM_ranking_algorithm_sort(
+            self.vectors, vector, top_k=top_k, metric=self.similarity_metric
         )
         if return_similarities:
             return list(
