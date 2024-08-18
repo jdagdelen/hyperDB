@@ -2,7 +2,9 @@ import gzip
 import pickle
 
 import numpy as np
-import openai
+from openai import OpenAI
+
+client = OpenAI()
 from sentence_transformers import SentenceTransformer
 
 
@@ -16,7 +18,6 @@ from hyperdb.galaxy_brain_math_shit import (
 )
 
 MAX_BATCH_SIZE = 2048  # OpenAI batch endpoint max size https://github.com/openai/openai-python/blob/main/openai/embeddings_utils.py#L43
-
 
 def get_embedding(documents, key=None, model="text-embedding-ada-002", model_type='openai'):
     """Default embedding function that uses OpenAI Embeddings."""
@@ -44,14 +45,19 @@ def get_embedding(documents, key=None, model="text-embedding-ada-002", model_typ
     ]
     embeddings = []
     if model_type == 'openai':
-
         for batch in batches:
-            response = openai.Embedding.create(input=batch, model=model)
+            response = client.embeddings.create(input=batch, model=model)
             embeddings.extend(np.array(item["embedding"])
-                            for item in response["data"])
+                            for item in response.data)
     elif model_type == 'huggingface':
+        if not importlib.util.find_spec("sentence_transformers"):
+            raise ImportError(
+                "The 'sentence-transformers' package is required for Hugging Face models but is not installed. "
+                "Please install it with 'pip install sentence-transformers'."
+            )
+        from sentence_transformers import SentenceTransformer
+        model = SentenceTransformer(model)
         for batch in batches:
-            model = SentenceTransformer(model)
             response = model.encode(batch)
             embeddings.append(response)
     else:

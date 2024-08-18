@@ -22,6 +22,14 @@ Install the package from PyPI:
 pip install hyperdb-python
 ```
 
+## Optional Dependencies For locally embedding
+
+If you want to use Hugging Face models with this package, you need to install the `sentence-transformers` package:
+
+```bash
+pip install sentence-transformers
+```
+
 ## Usage
 
 Here's an example of using HyperDB to store and query documents with information about all 151 original pokemon _in an instant_:
