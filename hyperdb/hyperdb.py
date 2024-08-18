@@ -47,7 +47,7 @@ def get_embedding(documents, key=None, model="text-embedding-ada-002", model_typ
     if model_type == 'openai':
         for batch in batches:
             response = client.embeddings.create(input=batch, model=model)
-            embeddings.extend(np.array(item["embedding"])
+            embeddings.extend(np.array(item.embedding)
                             for item in response.data)
     elif model_type == 'huggingface':
         if not importlib.util.find_spec("sentence_transformers"):

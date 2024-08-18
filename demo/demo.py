@@ -17,11 +17,14 @@ db.save("demo/pokemon_hyperdb.pickle.gz")
 # Load the HyperDB instance from the file
 db.load("demo/pokemon_hyperdb.pickle.gz")
 
+print("Querying the HyperDB instance with a text input:")
+print("\"Likes to sleep.\"\n")
 # Query the HyperDB instance with a text input
 results = db.query("Likes to sleep.", top_k=5)
 
 # Define a function to pretty print the results
 def format_entry(pokemon):
+    pokemon = pokemon[0]
     name = pokemon["name"]
     hp = pokemon["hp"]
     info = pokemon["info"]
