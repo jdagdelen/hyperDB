@@ -22,7 +22,7 @@ Install the package from PyPI:
 pip install hyperdb-python
 ```
 
-## Optional Dependencies For locally embedding
+## Optional dependency for locally embedding
 
 If you want to use Hugging Face models with this package, you need to install the `sentence-transformers` package:
 
