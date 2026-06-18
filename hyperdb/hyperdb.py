@@ -31,13 +31,18 @@ def get_embedding(documents, key=None, model="text-embedding-ada-002", model_typ
                 else:
                     key_chain = [key]
                 for doc in documents:
-                    for key in key_chain:
-                        doc = doc[key]
-                    texts.append(doc.replace("\n", " "))
+                    value = doc
+                    for k in key_chain:
+                        value = value[k]
+                    texts.append(value.replace("\n", " "))
+            elif isinstance(key, list):
+                for doc in documents:
+                    text = ", ".join([f"{k}: {doc[k]}" for k in key])
+                    texts.append(text.replace("\n", " "))
             elif key is None:
                 for doc in documents:
-                    text = ", ".join([f"{key}: {value}" for key, value in doc.items()])
-                    texts.append(text)
+                    text = ", ".join([f"{k}: {v}" for k, v in doc.items()])
+                    texts.append(text.replace("\n", " "))
         elif isinstance(documents[0], str):
             texts = documents
     batches = [
